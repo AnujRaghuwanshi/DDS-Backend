@@ -30,4 +30,6 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
     List<GalleryYearProjection> fetchGalleryYears();
 
     Page<Gallery> findByYearOrderByCreatedAtDesc(Integer year, Pageable pageable);
+
+    Optional<Gallery> findFirstByYearOrderByCreatedAtDesc(Integer year);
 }

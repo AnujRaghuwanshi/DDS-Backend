@@ -2,6 +2,8 @@ package com.dadadarbar.web.repository;
 
 import com.dadadarbar.web.dto.GalleryYearProjection;
 import com.dadadarbar.web.entity.Gallery;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -26,4 +28,6 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
         ORDER BY g.year DESC
     """)
     List<GalleryYearProjection> fetchGalleryYears();
+
+    Page<Gallery> findByYearOrderByCreatedAtDesc(Integer year, Pageable pageable);
 }

@@ -1,12 +1,11 @@
 package com.dadadarbar.web.controller;
 
+import com.dadadarbar.web.dto.GalleryImageResponse;
 import com.dadadarbar.web.dto.GalleryYearResponse;
 import com.dadadarbar.web.service.GalleryQueryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +20,14 @@ public class GalleryPublicController {
     @GetMapping("/years")
     public List<GalleryYearResponse> getYears() {
         return service.getGalleryYears();
+    }
+
+    @GetMapping("/{year}")
+    public Page<GalleryImageResponse> getImages(
+            @PathVariable Integer year,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "24") int size
+    ) {
+        return service.getImagesByYear(year, page, size);
     }
 }

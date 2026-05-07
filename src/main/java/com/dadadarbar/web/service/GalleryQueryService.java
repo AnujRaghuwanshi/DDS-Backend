@@ -1,5 +1,6 @@
 package com.dadadarbar.web.service;
 
+import com.dadadarbar.web.dto.GalleryImageDetailResponse;
 import com.dadadarbar.web.dto.GalleryImageResponse;
 import com.dadadarbar.web.dto.GalleryYearResponse;
 import com.dadadarbar.web.entity.Gallery;
@@ -29,6 +30,7 @@ public class GalleryQueryService {
                 .toList();
     }
 
+
     public Page<GalleryImageResponse> getImagesByYear(
             Integer year,
             int page,
@@ -47,5 +49,18 @@ public class GalleryQueryService {
                         .thumbnailUrl(g.getThumbnailUrl())
                         .build()
         );
+    }
+
+    public GalleryImageDetailResponse getImageById(Long id) {
+
+        Gallery gallery = repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Image not found"));
+
+        return GalleryImageDetailResponse.builder()
+                .id(gallery.getId())
+                .imageUrl(gallery.getImageUrl())
+                .year(gallery.getYear())
+                .build();
     }
 }

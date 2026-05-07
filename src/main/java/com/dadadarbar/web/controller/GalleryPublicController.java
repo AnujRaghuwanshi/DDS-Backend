@@ -1,5 +1,6 @@
 package com.dadadarbar.web.controller;
 
+import com.dadadarbar.web.dto.GalleryImageDetailResponse;
 import com.dadadarbar.web.dto.GalleryImageResponse;
 import com.dadadarbar.web.dto.GalleryYearResponse;
 import com.dadadarbar.web.service.GalleryQueryService;
@@ -29,5 +30,10 @@ public class GalleryPublicController {
             @RequestParam(defaultValue = "24") int size
     ) {
         return service.getImagesByYear(year, page, size);
+    }
+
+    @GetMapping("/image/{id}")
+    public GalleryImageDetailResponse getImage(@PathVariable Long id) {
+        return service.getImageById(id);
     }
 }

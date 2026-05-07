@@ -25,4 +25,13 @@ public class GalleryController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedGallery);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteImage(
+            @PathVariable Long id
+    ) {
+        galleryService.deleteImage(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

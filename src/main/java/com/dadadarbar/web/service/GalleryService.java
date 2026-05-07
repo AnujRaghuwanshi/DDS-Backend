@@ -2,6 +2,7 @@ package com.dadadarbar.web.service;
 
 import com.dadadarbar.web.entity.Gallery;
 import com.dadadarbar.web.repository.GalleryRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -48,5 +49,35 @@ public class GalleryService {
                 .build();
 
         return galleryRepository.save(gallery);
+    }
+
+
+    @Transactional
+    public void deleteImage(Long id) {
+
+        Gallery gallery = galleryRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Image not found"));
+
+        Integer year = gallery.getYear();
+        boolean wasCover = gallery.getIsCover();
+
+        // Delete from Cloudinary
+        cloudinaryService.deleteFile(gallery.getPublicId());
+
+        // Delete from DB
+        galleryRepository.delete(gallery);
+
+        // Reassign cover if needed
+        if (wasCover) {
+
+            galleryRepository
+                    .findFirstByYearOrderByCreatedAtDesc(year)
+                    .ifPresent(newCover -> {
+
+                        newCover.setIsCover(true);
+                        galleryRepository.save(newCover);
+                    });
+        }
     }
 }

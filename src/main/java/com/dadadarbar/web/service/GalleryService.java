@@ -1,6 +1,7 @@
 package com.dadadarbar.web.service;
 
 import com.dadadarbar.web.entity.Gallery;
+import com.dadadarbar.web.exception.FileUploadException;
 import com.dadadarbar.web.repository.GalleryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,10 @@ public class GalleryService {
     private String cloudName;
 
     public Gallery uploadImage(MultipartFile file, Integer year) {
+
+        if (file.isEmpty()) {
+            throw new FileUploadException("File is empty");
+        }
 
         Map<String, Object> uploadResult = cloudinaryService.uploadFile(file, year);
 

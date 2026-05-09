@@ -1,7 +1,10 @@
 package com.dadadarbar.web.controller;
 
+import com.dadadarbar.web.dto.ApiResponse;
+import com.dadadarbar.web.dto.GalleryUploadRequest;
 import com.dadadarbar.web.entity.Gallery;
 import com.dadadarbar.web.service.GalleryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +20,18 @@ public class GalleryController {
     private final GalleryService galleryService;
 
     @PostMapping("/upload")
-    public ResponseEntity<Gallery> uploadGalleryImage(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("year") Integer year
+    public ResponseEntity<ApiResponse<Gallery>> uploadGalleryImage(@ModelAttribute @Valid GalleryUploadRequest request
     ) {
-        Gallery savedGallery = galleryService.uploadImage(file, year);
+        Gallery savedGallery = galleryService.uploadImage(
+                request.getFile(),
+                request.getYear()
+        );
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedGallery);
+                .body(ApiResponse.<Gallery>builder()
+                        .success(true)
+                        .message("Image uploaded successfully")
+                        .data(savedGallery)
+                        .build());
     }
 
     @DeleteMapping("/{id}")

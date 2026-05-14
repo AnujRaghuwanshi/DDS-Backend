@@ -38,11 +38,8 @@ public class GalleryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteImage(
-            @PathVariable Long id
-    ) {
+    public ResponseEntity<Void> deleteImage(@PathVariable Long id) {
         galleryService.deleteImage(id);
-
         return ResponseEntity.noContent().build();
     }
 }

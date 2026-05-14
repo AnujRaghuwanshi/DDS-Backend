@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -84,5 +86,23 @@ public class GalleryService {
                         galleryRepository.save(newCover);
                     });
         }
+    }
+
+    @Transactional
+    public List<Gallery> uploadMultipleImages(List<MultipartFile> files,Integer year) {
+
+        if (files == null || files.isEmpty()) {
+            throw new FileUploadException(
+                    "No files provided"
+            );
+        }
+        List<Gallery> uploadedImages = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            Gallery gallery = uploadImage(file, year);
+            uploadedImages.add(gallery);
+        }
+
+        return uploadedImages;
     }
 }

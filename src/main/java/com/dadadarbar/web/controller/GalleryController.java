@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/gallery")
 @RequiredArgsConstructor
@@ -20,18 +22,19 @@ public class GalleryController {
     private final GalleryService galleryService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ApiResponse<Gallery>> uploadGalleryImage(@ModelAttribute @Valid GalleryUploadRequest request
-    ) {
-        Gallery savedGallery = galleryService.uploadImage(
-                request.getFile(),
-                request.getYear()
-        );
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.<Gallery>builder()
+    public ResponseEntity<ApiResponse<List<Gallery>>> uploadMultipleImages(
+            @RequestParam("files") List<MultipartFile> files,  @RequestParam("year") Integer year) {
+
+        List<Gallery> galleries =
+                galleryService.uploadMultipleImages(files,year);
+
+        return ResponseEntity.ok(
+                ApiResponse.<List<Gallery>>builder()
                         .success(true)
-                        .message("Image uploaded successfully")
-                        .data(savedGallery)
-                        .build());
+                        .message("Images uploaded successfully")
+                        .data(galleries)
+                        .build()
+        );
     }
 
     @DeleteMapping("/{id}")

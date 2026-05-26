@@ -31,7 +31,7 @@ public class GalleryController {
         return ResponseEntity.ok(
                 ApiResponse.<List<Gallery>>builder()
                         .success(true)
-                        .message("Images uploaded successfully")
+                        .message("File(s) Uploaded successfully")
                         .data(galleries)
                         .build()
         );

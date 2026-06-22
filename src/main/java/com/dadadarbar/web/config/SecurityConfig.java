@@ -37,6 +37,8 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/api/gallery/**")
                         .permitAll()
+                        .requestMatchers("/api/contact/**")
+                        .permitAll()
                         .requestMatchers("/api/admin/**").authenticated()
                         .anyRequest()
                         .authenticated()

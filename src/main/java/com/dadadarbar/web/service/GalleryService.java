@@ -3,6 +3,7 @@ package com.dadadarbar.web.service;
 import com.dadadarbar.web.entity.Gallery;
 import com.dadadarbar.web.exception.FileUploadException;
 import com.dadadarbar.web.repository.GalleryRepository;
+import com.dadadarbar.web.validation.FileValidation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +23,18 @@ public class GalleryService {
 
     private final GalleryRepository galleryRepository;
     private final CloudinaryService cloudinaryService;
+    private final FileValidation fileValidation;
 
     @Value("${cloudinary.cloud-name}")
     private String cloudName;
 
-    public Gallery uploadImage(MultipartFile file, Integer year) {
+    public Gallery uploadImage(MultipartFile file, Integer year) throws IOException {
 
         if (file.isEmpty()) {
             throw new FileUploadException("File is empty");
         }
+
+        fileValidation.validateImage(file);
 
         Map<String, Object> uploadResult = cloudinaryService.uploadFile(file, year);
 
@@ -89,7 +94,7 @@ public class GalleryService {
     }
 
     @Transactional
-    public List<Gallery> uploadMultipleImages(List<MultipartFile> files,Integer year) {
+    public List<Gallery> uploadMultipleImages(List<MultipartFile> files,Integer year) throws IOException {
 
         if (files == null || files.isEmpty()) {
             throw new FileUploadException(

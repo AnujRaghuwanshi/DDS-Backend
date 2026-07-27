@@ -1,0 +1,56 @@
+jwt:
+  secret: ${JWT_SECRET_KEY:mySuperSecretKeyForJwtTokenGeneration123456789}
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /dada_darbar
+
+spring:
+  application:
+    name: web
+
+  datasource:
+    url: ${DB_URL}
+    username: ${USER_NAME}
+    password: ${PASSWORD}
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${APP_CODE}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enabled: true
+            required: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+
+  logging:
+    level:
+      com:
+        example:
+          web:
+            WebApplication: ERROR
+
+cloudinary:
+  cloud-name: ${CLOUD_NAME}
+  api-key: ${API_KEY}
+  api-secret: ${API_SECRET}
+

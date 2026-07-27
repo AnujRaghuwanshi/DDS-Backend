@@ -1,6 +1,7 @@
 package com.dadadarbar.web.exception;
 
 import com.dadadarbar.web.dto.ApiResponse;
+import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,8 +16,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.builder()
                         .success(false)
-                        .message("Image not found")
+                        .message(ex.getMessage())
                         .data(null)
+                        .build());
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ApiResponse<?>> handleInvalidCredentials(InvalidCredentialsException ex){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ApiResponse.builder()
+                        .success(false)
+                        .message(ex.getMessage())
+                                .data(null)
                         .build());
     }
 

@@ -1,10 +1,8 @@
 package com.dadadarbar.web.config;
 
-import com.dadadarbar.web.entity.Admin;
-import com.dadadarbar.web.repository.AdminRepository;
+
 import com.dadadarbar.web.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -74,7 +72,9 @@ public class SecurityConfig {
                 new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:5173")
+                List.of("http://localhost:5173",
+                        "https://dds-web.vercel.app")
+
         );
 
         configuration.setAllowedMethods(

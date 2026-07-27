@@ -7,6 +7,7 @@ import com.dadadarbar.web.exception.ResourceNotFoundException;
 import com.dadadarbar.web.repository.AdminRepository;
 import com.dadadarbar.web.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +19,12 @@ public class AuthService {
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
 
-    public LoginResponse login(LoginRequest request) {
+    public LoginResponse login(LoginRequest request) throws InvalidCredentialsException {
 
         Admin admin = repository
                 .findByEmail(String.valueOf(request.getEmail()))
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
+                        new InvalidCredentialsException(
                                 "Invalid credentials"
                         ));
 
@@ -34,7 +35,7 @@ public class AuthService {
                 );
 
         if (!matches) {
-            throw new ResourceNotFoundException(
+            throw new InvalidCredentialsException(
                     "Invalid credentials"
             );
         }

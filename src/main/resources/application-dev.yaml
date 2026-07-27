@@ -25,7 +25,7 @@ spring:
         smtp:
           auth: true
           starttls:
-            enabled: true
+            enable: true
             required: true
 
   jpa:

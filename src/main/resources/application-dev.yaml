@@ -1,6 +1,10 @@
 jwt:
   secret: ${JWT_SECRET_KEY}
 
+resend:
+  api:
+    key: ${RESEND_KEY}
+
 server:
   port: ${PORT:8080}
   servlet:
@@ -15,18 +19,6 @@ spring:
     username: ${USER_NAME}
     password: ${PASSWORD}
 
-  mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
-    username: ${MAIL_USERNAME}
-    password: ${APP_CODE}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
 
   jpa:
     hibernate:

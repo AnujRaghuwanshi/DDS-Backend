@@ -31,8 +31,6 @@ public class Gallery {
     @Column(nullable = false, length = 1000)
     private String thumbnailUrl;
 
-    @Column(nullable = false)
-    private Boolean isCover = false;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

@@ -48,15 +48,12 @@ public class GalleryService {
                 "https://res.cloudinary.com/" + cloudName +
                         "/image/upload/f_auto,q_auto,w_500/" + publicId;
 
-        boolean coverExists =
-                galleryRepository.existsByYearAndIsCoverTrue(year);
 
         Gallery gallery = Gallery.builder()
                 .year(year)
                 .publicId(publicId)
                 .imageUrl(imageUrl)
                 .thumbnailUrl(thumbnailUrl)
-                .isCover(!coverExists)
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -72,7 +69,6 @@ public class GalleryService {
                         new RuntimeException("Image not found"));
 
         Integer year = gallery.getYear();
-        boolean wasCover = gallery.getIsCover();
 
         // Delete from Cloudinary
         cloudinaryService.deleteFile(gallery.getPublicId());
@@ -80,17 +76,7 @@ public class GalleryService {
         // Delete from DB
         galleryRepository.delete(gallery);
 
-        // Reassign cover if needed
-        if (wasCover) {
 
-            galleryRepository
-                    .findFirstByYearOrderByCreatedAtDesc(year)
-                    .ifPresent(newCover -> {
-
-                        newCover.setIsCover(true);
-                        galleryRepository.save(newCover);
-                    });
-        }
     }
 
     @Transactional

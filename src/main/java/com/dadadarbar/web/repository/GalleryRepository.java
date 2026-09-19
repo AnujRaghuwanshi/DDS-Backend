@@ -12,10 +12,6 @@ import java.util.Optional;
 
 public interface GalleryRepository extends JpaRepository<Gallery, Long> {
 
-    boolean existsByYearAndIsCoverTrue(Integer year);
-
-    Optional<Gallery> findByYearAndIsCoverTrue(Integer year);
-
     long countByYear(Integer year);
 
     @Query("""
@@ -23,7 +19,6 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
                g.thumbnailUrl as thumbnailUrl,
                (SELECT COUNT(g2.id) FROM Gallery g2 WHERE g2.year = g.year) as totalImages
         FROM Gallery g
-        WHERE g.isCover = true
         GROUP BY g.year, g.thumbnailUrl
         ORDER BY g.year DESC
     """)

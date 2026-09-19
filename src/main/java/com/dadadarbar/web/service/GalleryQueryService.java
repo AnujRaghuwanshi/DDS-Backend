@@ -18,17 +18,6 @@ public class GalleryQueryService {
 
     private final GalleryRepository repository;
 
-    public List<GalleryYearResponse> getGalleryYears() {
-
-        return repository.fetchGalleryYears()
-                .stream()
-                .map(g -> GalleryYearResponse.builder()
-                        .year(g.getYear())
-                        .thumbnailUrl(g.getThumbnailUrl())
-                        .totalImages(g.getTotalImages())
-                        .build())
-                .toList();
-    }
 
 
     public Page<GalleryImageResponse> getImagesByYear(

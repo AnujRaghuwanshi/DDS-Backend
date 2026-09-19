@@ -18,10 +18,10 @@ public class GalleryPublicController {
 
     private final GalleryQueryService service;
 
-    @GetMapping("/years")
-    public List<GalleryYearResponse> getYears() {
-        return service.getGalleryYears();
-    }
+//    @GetMapping("/years")
+//    public List<GalleryYearResponse> getYears() {
+//        return service.getGalleryYears();
+//    }
 
     @GetMapping("/{year}")
     public Page<GalleryImageResponse> getImages(

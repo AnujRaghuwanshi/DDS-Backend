@@ -14,15 +14,6 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
 
     long countByYear(Integer year);
 
-    @Query("""
-        SELECT g.year as year,
-               g.thumbnailUrl as thumbnailUrl,
-               (SELECT COUNT(g2.id) FROM Gallery g2 WHERE g2.year = g.year) as totalImages
-        FROM Gallery g
-        GROUP BY g.year, g.thumbnailUrl
-        ORDER BY g.year DESC
-    """)
-    List<GalleryYearProjection> fetchGalleryYears();
 
     Page<Gallery> findByYearOrderByCreatedAtDesc(Integer year, Pageable pageable);
 

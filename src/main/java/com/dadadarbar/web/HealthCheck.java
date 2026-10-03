@@ -8,8 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/health-check")
 public class HealthCheck {
 
-    @GetMapping
+    @GetMapping("/status")
     public String healthCheck(){
         return "ok";
+    }
+
+    @GetMapping("/code")
+    public Integer isAlive(){
+        return 200;
     }
 }

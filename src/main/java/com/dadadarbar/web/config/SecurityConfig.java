@@ -36,7 +36,7 @@ public class SecurityConfig {
                                 SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth-> auth
-                        .requestMatchers("/health-check")
+                        .requestMatchers("/health-check/**")
                         .permitAll()
                         .requestMatchers("/api/auth/**")
                         .permitAll()
